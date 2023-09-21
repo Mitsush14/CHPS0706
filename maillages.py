@@ -29,19 +29,19 @@ class Maillage(object):
         nba = int(nba)
         for i in range(nbm):
             coord.append(f.readline().split())
-            refn.append(int(coord[i][2]))
+            refn.append(int(coord[i][-1]))
             del(coord[i][-1])
             for j in range (2):
                 coord[i][j] = float(coord[i][j])
         for i in range(nbe):
             tri.append(f.readline().split())
-            reft.append(int(tri[i][3]))
+            reft.append(int(tri[i][-1]))
             del(tri[i][-1])
             for j in range (3):
                 tri[i][j] = int(tri[i][j])
         for i in range(nba):
             ar.append(f.readline().split())
-            refa.append(int(ar[i][2]))
+            refa.append(int(ar[i][-1]))
             del(ar[i][-1])
             for j in range (2):
                 ar[i][j] = int(ar[i][j])
@@ -88,7 +88,7 @@ class Maillage(object):
             dists.append(c)
             aire = Maillage.calcul_aire(coord, points, dists)
             rayon = 2 * aire / (a + b + c)
-            pas = max(Maillage.distance(coord, point1, point2), Maillage.distance(coord, point2, point3), Maillage.distance(coord, point3, point1))
+            pas = max(dists[0], dists[1], dist[2])
             listePasTriangles.append(pas)
             qual = (math.sqrt(3)/6) * (pas/rayon)
             listeQualiteTriangles.append(qual)
@@ -104,6 +104,6 @@ class Maillage(object):
 
 
 if __name__ == '__main__':
-    m = Maillage.charge_et_affiche_maillage("Maillages/m00.msh")
+    m = Maillage.charge_et_affiche_maillage("Maillages/mini_maillage.msh")
     pas, qualite = m.pas_et_qualite_maillage(m.nbm, m.nbe, m.nba, m.coord, m.tri)
-    print(f'Pas : {pas :.2f}, Qualité :  + {qualite:.2f}')
+    print(f'Pas : {pas :.2f}, Qualité : {qualite:.2f}')
