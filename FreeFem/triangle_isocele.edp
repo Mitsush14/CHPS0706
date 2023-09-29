@@ -1,0 +1,15 @@
+real L = 4.0;
+real x0 = -2.0, y0 = 2.0;
+real x1 = x0+L, y1 = 2.0;
+real x2 = 0.0, y2 = 6.0;
+
+border a(t=0,1){x=x0+t *(x1-x0);y=y0+t*(y1-y0);label=2;};
+border b(t=0,1){x=x1+t *(x2-x1);y=y1+t*(y2-y1);label=2;};
+border c(t=0,1){x=x2+t *(x0-x2);y=y2+t*(y0-y2);label=2;};
+
+border circle(t = 0, 2*pi){x = 0.6* cos(t); y = 3.5+ 0.6*sin(t);label=1;};
+mesh Th = buildmesh(a(15) + b(15) + c(15)+circle(15));
+plot(Th);
+savemesh(Th, "../Maillages/triangle_isocele.msh");
+
+

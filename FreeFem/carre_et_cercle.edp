@@ -1,0 +1,17 @@
+real L = 4.0, l = 4.0; 
+
+real x0 = -2.0, y0 = -2.0;
+real x1 = x0+L, y1 = y0;
+real x2 = x1, y2 = y1 +l;
+real x3 = x0, y3 = y2;
+
+border a(t=0,1){x=x0+t *(x1-x0);y=y0+t*(y1-y0);label=2;};
+border b(t=0,1){x=x1+t *(x2-x1);y=y1+t*(y2-y1);label=2;};
+border c(t=0,1){x=x2+t *(x3-x2);y=y2+t*(y3-y2);label=2;};
+border d(t=0,1){x=x3+t *(x0-x3);y=y3+t*(y0-y3);label=2;};
+border circle(t = 0, 2*pi){x = cos(t); y = sin(t);label=2;};
+mesh Th = buildmesh(a(50) + b(50) + c(50) + d(50) + circle(-50));
+plot(Th);
+savemesh(Th, "../Maillages/carre_et_cercle.msh");
+
+

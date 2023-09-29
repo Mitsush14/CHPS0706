@@ -88,7 +88,7 @@ class Maillage(object):
             dists.append(c)
             aire = Maillage.calcul_aire(coord, points, dists)
             rayon = 2 * aire / (a + b + c)
-            pas = max(dists[0], dists[1], dist[2])
+            pas = max(dists[0], dists[1], dists[2])
             listePasTriangles.append(pas)
             qual = (math.sqrt(3)/6) * (pas/rayon)
             listeQualiteTriangles.append(qual)

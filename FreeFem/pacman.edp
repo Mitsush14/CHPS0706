@@ -1,0 +1,10 @@
+real x0=1.0, y0 = 0.0;
+real x1=0.5, y1 = y0;
+
+border body(t = 0, 2*pi){x = cos(t); y = sin(t);label=2;};
+border eye(t = 0, 2*pi){x = 0.3+0.3*cos(t); y = 0.4+0.3*sin(t);label=2;}
+border a(t=0,1){x=x0+t *(x1-x0);y=y0+t*(y1-y0);label=2;};
+border b(t=0,1){x=x1+cos(t) *(sin(t)-x1);y=y1+sin(t)*(cos(t)-y1);label=2;};
+mesh Th = buildmesh(body(50)+eye(-15)+a(-15)+b(-15));
+plot(Th);
+savemesh(Th, "../Maillages/pacman.msh");
