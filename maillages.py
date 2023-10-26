@@ -62,7 +62,7 @@ class Maillage(object):
 
     def charge_et_affiche_maillage(fichierMaillage):
         m = Maillage(fichierMaillage)
-        m.trace_maillage_ind(m.nbm, m.nbe, m.nba, m.coord, m.tri, m.ar)
+        #m.trace_maillage_ind(m.nbm, m.nbe, m.nba, m.coord, m.tri, m.ar)
         return m;
 
     def pas_et_qualite_maillage(self, nbm, nbe, nba, coord, tri):
@@ -104,6 +104,7 @@ class Maillage(object):
 
 
 if __name__ == '__main__':
-    m = Maillage.charge_et_affiche_maillage("Maillages/mini_maillage.msh")
-    pas, qualite = m.pas_et_qualite_maillage(m.nbm, m.nbe, m.nba, m.coord, m.tri)
-    print(f'Pas : {pas :.2f}, Qualité : {qualite:.2f}')
+    for i in range(1, 5):
+        m = Maillage.charge_et_affiche_maillage("Maillages/m"+str(i)+".msh")
+        pas, qualite = m.pas_et_qualite_maillage(m.nbm, m.nbe, m.nba, m.coord, m.tri)
+        print(f'm{i}.msh : Pas : {pas :.2f}, Qualité : {qualite:.2f}')

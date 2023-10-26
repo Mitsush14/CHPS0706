@@ -1,0 +1,26 @@
+//Tableau sauvegardant les eh pour chaqun des maillages (attention au -1 pour accéder au maillage correspondant)
+real[int] ehTab(4);
+for(int i = 1; i < 5; i++){
+    mesh Th = readmesh("../Maillages/m"+i+".msh"); //Emplacement à modifier pour correspondre aux maillages
+    int CodeDir = 1;
+    func u = 1.0  + sin(0.5 * pi * x) + x * (x - 4.0) * cos(0.5*pi*y); //solution exacte et donnée dans l'exo
+    func f = ((pi*pi)/4)*sin((pi*x)/2) + 2*cos((pi*y)/2) - x*(x-4)*((pi*pi)/4)*cos((pi*y)/2);
+    func uE = 1.0; //on le calcule grâce à u au plus haut x sur le maillage
+    fespace Vh(Th, P1); //espace d'élément fini (mesh, type d'élément fini) : Esp.EF - P1
+    Vh uh, vh; //inconnues delta fct test
+    problem PbLAPLACE(uh, vh, solver = Cholesky) = int2d(Th)(dx(uh)*dx(vh)+dy(uh)*dy(vh)) - int2d(Th)(f*vh) + on(CodeDir, uh = uE);
+    PbLAPLACE; // appel au solver EF => calcul de uh !
+    //calcul d'erreurs
+    varf b(uh, vh) = int2d(Th)(dx(uh)*dx(vh)+dy(uh)*dy(vh));//forme bilinéaire
+    matrix K = b(Vh, Vh); //matrice de rigidité
+    Vh KEh, Eh = u - uh;
+    KEh[] = K * Eh[];//vecteur derrière la fonction élément fini * matrice -> donne un vecteur[]
+    ehTab[i-1] = sqrt(Eh[]'*KEh[]);
+    cout << "eh = |u-uh|_H1 = " << ehTab[i-1] << endl;
+    //Calcul de la probablitité d'erreur pour les maillages au-dessus du 1er
+    if(i!=1){
+        real p = log(ehTab[i-2]/ehTab[i-1])/log(2.0);
+        cout << "p = log(e"<<i-1<<"/e"<<i<<")/ log(2) = " << p << endl;
+    }
+    plot(Th, uh, wait = 1);
+}

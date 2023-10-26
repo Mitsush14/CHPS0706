@@ -1,0 +1,30 @@
+-- FreeFem++ v4.13 (Sat Jul  8 11:10:05 CEST 2023 - git v4.13)
+   file : C:\Users\Kevdr\Desktop\Cours\2023\CHPS0706\FreeFem\triangle_isocele.edp
+ Load: lg_fem lg_mesh lg_mesh3 eigenvalue
+    1 : real L = 4.0, l = 4.0;
+    2 :
+    3 : real x0 = 0.0, y0 = 10.0;
+ *** Warning  The identifier y0 hide a Global identifier
+ 
+    4 : real x1 = 10.0, y1 = -10.0;
+ *** Warning  The identifier y1 hide a Global identifier
+ 
+    5 : real x2 = -x1, y2 = y1;
+    6 :
+    7 : border a(t=0,1){x=x0+t *(x1-x0);y=y0+t*(y1-y0);label=2;};
+    8 : border b(t=0,1){x=x1+t *(x2-x1);y=y1+t*(y2-y1);label=2;};
+    9 : border c(t=0,1){x=x2+t *(x0-x2);y=y2+t*(y0-y2);label=2;};
+   10 :
+   11 : border circle(t = 0, 2*pi){x = cos(t); y = sin(t);label=2;};
+   12 : mesh Th = buildmesh(a(50) + b(50) + c(50) + circle(50));
+   13 : plot(Th);
+   14 : savemesh(Th, "../Maillages/triangle_isocele.msh");
+   15 :
+   16 :
+ number : 777,
+ catch Err bamg
+Meshing error: Bamg
+ number : 777,
+ err code 5 ,  mpirank 0
+ try getConsole C:\Users\Kevdr\Desktop\Cours\2023\CHPS0706\FreeFem\triangle_isocele.edp
+ 

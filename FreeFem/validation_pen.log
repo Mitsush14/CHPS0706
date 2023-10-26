@@ -1,0 +1,90 @@
+-- FreeFem++ v4.13 (Sat Jul  8 11:10:05 CEST 2023 - git v4.13)
+   file : C:\Users\Mitsu\Desktop\Cours\2023\CHPS0706\FreeFem\validation_pen.edp
+ Load: lg_fem lg_mesh lg_mesh3 eigenvalue
+    1 : //Tableau sauvegardant les eh pour chaqun des maillages (attention au -1 pour accÃ©der au maillage correspondant@ÍCñ†)
+    2 : real[int] ehTab(4);
+    3 : //Variables pour utiliser la condition de Fourier-Robin
+    4 : real alpha = 0.25;
+    5 : real beta = 1.0;
+    6 :
+    7 : for(int i = 1; i < 5; i++){
+    8 :     mesh Th = readmesh("../Maillages/m"+i+".msh");
+    9 :     int CodeDir = 1;
+   10 :     func u = 1.0  + sin(0.5 * pi * x) + x * (x - 4.0) * cos(0.5*pi*y); //solution exacte et donnÃ©e dans l'exo
+   11 :     func f = ((pi*pi)/4)*sin((pi*x)/2) + 2*cos((pi*y)/2) - x*(x-4)*((pi*pi)/4)*cos((pi*y)/2);
+   12 :     func uE = 1.0; //on le calcule grÃ¢ce Ã  u au plus haut x sur le maillage
+   13 :     fespace Vh(Th, P1); //espace d'Ã©lÃ©ment fini (mesh, type d'Ã©lÃ©ment fini) : Esp.EF - P1
+   14 :     Vh uh, vh; //inconnues delta fct test
+   15 :     problem PbLAPLACE(uh, vh, solver = Cholesky) =
+   16 :     int2d(Th)(dx(uh)*dx(vh)+dy(uh)*dy(vh))
+   17 :     - int2d(Th)(f*vh)
+   18 :     + on(CodeDir, uh = uE) //Condition de Dirichlet
+   19 :     + on(CodeDir, alpha *(uh - uE) error operator -  <10LinearCombI7MGauche4C_F0E>, <d>
+ List of choices
+         (        <l> :   <l>, <l> )
+         (        <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> :   <NSt7__cxx114listISt5@ÍCñ†tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> )
+         (        <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> :   <14Matrice_CreuseISt7@ÍCñ†complexIdEE>, <14Matrice_CreuseISt7complexIdEE> )
+         (        <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> :   <14Matrice_CreuseISt7@ÍCñ†complexIdEE>, <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> )
+         (        <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> :   <NSt7__cxx114listISt5@ÍCñ†tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE>, <14Matrice_CreuseISt7complexIdEE> )
+         (        <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE> :   <NSt7__cxx114listISt5@ÍCñ†tupleIJSt7complexIdEP13VirtualMatrixIiS3_EbEESaIS7_EEE>, <NSt7__cxx114listISt5tupleIJSt7complexIdEP13VirtualMatrixIiS3_E@ÍCñ†bEESaIS7_EEE> )
+         (        <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> :   <NSt7__cxx114listISt5tupleIJdP13Vir@ÍCñ†tualMatrixIidEbEESaIS5_EEE> )
+         (        <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> :   <14Matrice_CreuseIdE>, <14Matrice_C@ÍCñ†reuseIdE> )
+         (        <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> :   <14Matrice_CreuseIdE>, <NSt7__cxx11@ÍCñ†4listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> )
+         (        <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> :   <NSt7__cxx114listISt5tupleIJdP13Vir@ÍCñ†tualMatrixIidEbEESaIS5_EEE>, <14Matrice_CreuseIdE> )
+         (        <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> :   <NSt7__cxx114listISt5tupleIJdP13Vir@ÍCñ†tualMatrixIidEbEESaIS5_EEE>, <NSt7__cxx114listISt5tupleIJdP13VirtualMatrixIidEbEESaIS5_EEE> )
+         (        <10FormLinear> :   <10FormLinear> )
+         (        <12FormBilinear> :   <12FormBilinear> )
+         (        <6C_args> :   <6C_args>, <10FormLinear> )
+         (        <6C_args> :   <6C_args>, <12FormBilinear> )
+         (        <10LinearCombI7MGauche4C_F0E> :   <10LinearCombI7MGauche4C_F0E>, <10LinearCombI7MGauche4C_F0E> )
+         (        <10LinearCombI6MDroit4C_F0E> :   <10LinearCombI6MDroit4C_F0E>, <10LinearCombI6MDroit4C_F0E> )
+         (        <10LinearCombISt4pairI7MGauche6MDroitE4C_F0E> :   <10LinearCombISt4pairI7MGauche6MDroitE4C_F0E>, <10Li@ÍCñ†nearCombISt4pairI7MGauche6MDroitE4C_F0E> )
+         (        <10LinearCombI7MGauche4C_F0E> :   <10LinearCombI7MGauche4C_F0E> )
+         (        <10LinearCombI6MDroit4C_F0E> :   <10LinearCombI6MDroit4C_F0E> )
+         (        <10LinearCombISt4pairI7MGauche6MDroitE4C_F0E> :   <10LinearCombISt4pairI7MGauche6MDroitE4C_F0E> )
+         (        <N5Fem2D2R3E> :   <N5Fem2D2R3E>, <N5Fem2D2R3E> )
+         (        <4C_F0> :   <12TransE_Array>, <12TransE_Array> )
+         (        <4C_F0> :   <7E_Array>, <12TransE_Array> )
+         (        <4C_F0> :   <7E_Array>, <7E_Array> )
+         (        <4C_F0> :   <12TransE_Array>, <7E_Array> )
+         (        <12Add_Mulc_KN_ISt7complexIdEE> :   <8Mulc_KN_ISt7complexIdEE>, <3KN_ISt7complexIdEE> )
+         (        <12Add_Mulc_KN_ISt7complexIdEE> :   <3KN_ISt7complexIdEE>, <8Mulc_KN_ISt7complexIdEE> )
+         (        <12Add_Mulc_KN_ISt7complexIdEE> :   <8Mulc_KN_ISt7complexIdEE>, <8Mulc_KN_ISt7complexIdEE> )
+         (        <8Mulc_KN_ISt7complexIdEE> :   <3KN_ISt7complexIdEE> )
+         (        <7Sub_KN_ISt7complexIdEE> :   <3KN_ISt7complexIdEE>, <3KN_ISt7complexIdEE> )
+         (        <12Add_Mulc_KN_IdE> :   <8Mulc_KN_IdE>, <3KN_IdE> )
+         (        <12Add_Mulc_KN_IdE> :   <3KN_IdE>, <8Mulc_KN_IdE> )
+         (        <12Add_Mulc_KN_IdE> :   <8Mulc_KN_IdE>, <8Mulc_KN_IdE> )
+         (        <8Mulc_KN_IdE> :   <3KN_IdE> )
+         (        <7Sub_KN_IdE> :   <3KN_IdE>, <3KN_IdE> )
+         (        <12Add_Mulc_KN_IlE> :   <8Mulc_KN_IlE>, <3KN_IlE> )
+         (        <12Add_Mulc_KN_IlE> :   <3KN_IlE>, <8Mulc_KN_IlE> )
+         (        <12Add_Mulc_KN_IlE> :   <8Mulc_KN_IlE>, <8Mulc_KN_IlE> )
+         (        <8Mulc_KN_IlE> :   <3KN_IlE> )
+         (        <7Sub_KN_IlE> :   <3KN_IlE>, <3KN_IlE> )
+         (        <St7complexIdE> :   <St7complexIdE> )
+         (        <l> :   <l> )
+         (        <d> :   <d> )
+         (        <St7complexIdE> :   <b>, <St7complexIdE> )
+         (        <St7complexIdE> :   <St7complexIdE>, <b> )
+         (        <St7complexIdE> :   <l>, <St7complexIdE> )
+         (        <St7complexIdE> :   <St7complexIdE>, <l> )
+         (        <St7complexIdE> :   <d>, <St7complexIdE> )
+         (        <St7complexIdE> :   <St7complexIdE>, <d> )
+         (        <St7complexIdE> :   <St7complexIdE>, <St7complexIdE> )
+         (        <l> :   <b>, <l> )
+         (        <l> :   <l>, <b> )
+         (        <l> :   <b>, <b> )
+         (        <d> :   <l>, <d> )
+         (        <d> :   <d>, <l> )
+         (        <d> :   <d>, <d> )
+ 
+ Error line number 19, in file C:\Users\Mitsu\Desktop\Cours\2023\CHPS0706\FreeFem\validation_pen.edp, before  token )
+ 
+  current line = 19
+Compile error :
+        line number :19, )
+error Compile error :
+        line number :19, )
+ code = 1 mpirank: 0
+ try getConsole C:\Users\Mitsu\Desktop\Cours\2023\CHPS0706\FreeFem\validation_pen.edp
