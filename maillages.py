@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import math
 import numpy as np
+import copy
 #Classe Maillage permetttant de générer un maillage à partir d'un fichier et effectuer différentes opérations dessus
 class Maillage(object):
     def __init__(self, path):
-        (self.nbm,
+        (self.nbn,
          self.nbe,
          self.nba,
          self.coord,
@@ -23,11 +24,11 @@ class Maillage(object):
         refn = []
         reft = []
         refa = []
-        (nbm, nbe, nba) = f.readline().split()
-        nbm = int(nbm)
+        (nbn, nbe, nba) = f.readline().split()
+        nbn = int(nbn)
         nbe = int(nbe)
         nba = int(nba)
-        for i in range(nbm):
+        for i in range(nbn):
             coord.append(f.readline().split())
             refn.append(int(coord[i][-1]))
             del(coord[i][-1])
@@ -47,9 +48,9 @@ class Maillage(object):
                 ar[i][j] = int(ar[i][j])
         f.close()
 
-        return (nbm, nbe, nba, coord, tri, ar, refn, reft, refa)
+        return (nbn, nbe, nba, coord, tri, ar, refn, reft, refa)
 
-    def trace_maillage_ind(self, nbm, nbe, nba, coord, tri, ar):
+    def trace_maillage_ind(self, nbn, nbe, nba, coord, tri, ar):
         xy = np.asarray(coord)
         x = np.degrees(xy[:, 0])
         y = np.degrees(xy[:, 1])
@@ -62,10 +63,10 @@ class Maillage(object):
 
     def charge_et_affiche_maillage(fichierMaillage):
         m = Maillage(fichierMaillage)
-        #m.trace_maillage_ind(m.nbm, m.nbe, m.nba, m.coord, m.tri, m.ar)
+        m.trace_maillage_ind(m.nbn, m.nbe, m.nba, m.coord, m.tri, m.ar)
         return m;
 
-    def pas_et_qualite_maillage(self, nbm, nbe, nba, coord, tri):
+    def pas_et_qualite_maillage(self, nbn, nbe, nba, coord, tri):
         #calcul distance entre chaque point du triangle et prendre le max
         #pour le pas d'un maillage -> prendre le pas le plus haut sur ts les triangles
         #qualité : prendre le pas du triangle + son rayon isncrit et faire des opérations dessus
@@ -102,9 +103,19 @@ class Maillage(object):
         s =(a+b+c)/2
         return math.sqrt(s * (s - a) * (s - b) * (s - c))
 
+    def triangle_to_coordonnees(tri, coord):
+        triangle = copy.deepcopy(tri)
+        for i in range(0,len(triangle)):
+            for j in range(0,len(triangle[i])):
+                triangle[i][j] = coord[triangle[i][j]-1]
+        return triangle
+
 
 if __name__ == '__main__':
-    for i in range(1, 5):
-        m = Maillage.charge_et_affiche_maillage("Maillages/m"+str(i)+".msh")
-        pas, qualite = m.pas_et_qualite_maillage(m.nbm, m.nbe, m.nba, m.coord, m.tri)
-        print(f'm{i}.msh : Pas : {pas :.2f}, Qualité : {qualite:.2f}')
+    path = "Maillages/m"
+    typeFile = ".msh"
+    #for i in range (1,5):
+        #m = Maillage.charge_et_affiche_maillage(path+str(i)+typeFile)
+        #pas, qualite = m.pas_et_qualite_maillage(m.nbn, m.nbe, m.nba, m.coord, m.tri)
+        #print(f'Pas : {pas :.2f}, Qualité : {qualite:.2f}')
+    Maillage.charge_et_affiche_maillage("Maillages/m00.msh")
